@@ -3,10 +3,31 @@
 dApp where users can create an edition certificate of their NFT and corresponding oracle to trigger OpenSea API.
 
 Two major features will be available:
-- Create an oracle on iExec (if not already existing) of the last price available via the opensea API by anyone.
-- Mint an edition certificate by the owner of the NFT (creation of an oracle at the same time if it does not exist)
+- Create an oracle on iExec (if not already existing) of the last price available via the opensea API wich can be trigged by anyone.
+- Mint an edition certificate by the owner of the NFT (creation of an oracle at the same time if it does not exist).
 
-Hardhat repository with all iExec Oracle contract are in `solidity/` folder.
+Hardhat repository with all iExec Oracle contract are in [`solidity/`]("https://github.com/realNFT/rNFT-iExec-CertificateDApp/tree/main/solidity") folder.
+
+# Nuxt Frontend
+## Summary : 
+1. Oracle creation
+2. Certificate mint
+3. Wallet connect
+
+## Pages details
+
+1. Oracle :
+	
+- [ ] One form to fetch opensea URL of the NFT
+- [ ] Print NFT information
+- [ ] Validation button 
+	
+	
+2. Certificate (only if wallet is connected) : 
+- [ ] List of all NFTs on the owner wallet
+- [ ] One NFT selection
+- [ ] If Oracle doesn't exists, create one
+- [ ] Print all information of the Certificate
 
 ## Build Setup
 

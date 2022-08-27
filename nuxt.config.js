@@ -2,9 +2,12 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+  ssr: false,
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'rNFT-iExec-CertificateDApp',
+    title: 'rNFT x iExec',
     htmlAttrs: {
       lang: 'en'
     },
@@ -19,12 +22,15 @@ export default {
     ]
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
+   // Global CSS: https://go.nuxtjs.dev/config-css
+   css: [
+    '@/assets/scss/custom-bootstrap.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/persistedState.js', mode: 'client' },
+    //'~/plugins/fontawesome.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -42,5 +48,20 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+    transpile: [
+      'web3modal-vue' 
+    ],
+  },
+
+  bootstrapVue: {
+    bootstrapCSS: false, 
+    bootstrapVueCSS: false
+  },
+
+  rules: [
+    {
+       test: /\.s[ac]ss$/i,
+       use: ['style-loader','css-loader','sass-loader',],
+     },
+  ],
 }
