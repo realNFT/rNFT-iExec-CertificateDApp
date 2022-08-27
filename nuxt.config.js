@@ -30,7 +30,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/persistedState.js', mode: 'client' },
-    //'~/plugins/fontawesome.js',
+    '~/plugins/fontAwesome.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -38,6 +38,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/google-fonts',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -64,4 +65,20 @@ export default {
        use: ['style-loader','css-loader','sass-loader',],
      },
   ],
+
+  googleFonts: {
+    families:{
+      'Barlow': [100,200,300,400,500,600,700,800,900],
+      'Montserrat': [100,200,300,400,500,600,700,800,900]
+    } 
+  },
+
+  fontawesome: {
+    icons: {
+      solid: [ "faRightToBracket", "faWallet"],
+      //brands: ['faLinkedinIn', 'faTwitter', 'faFacebookF'],
+      //regular: ['faWallet'],
+    }
+
+  },
 }
