@@ -7,7 +7,8 @@
 
 Solidity smart contract for [rNFT iExec CertificateDApp](https://github.com/realNFT/rNFT-iExec-CertificateDApp).
 
-`example` explanation
+`Oracle` contract represent the iExec Oracle contract
+`CertificateMint` store oracles id of different NFTs and mint reproduction certificate
 
 ### 📦 Installation
 

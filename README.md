@@ -16,18 +16,18 @@ Hardhat repository with all iExec Oracle contract are in [`solidity/`]("https://
 
 ## Pages details
 
-1. Oracle :
+1. Oracle - All users :
 	
 - [ ] One form to fetch opensea URL of the NFT
 - [ ] Print NFT information
 - [ ] Validation button 
 	
 	
-2. Certificate (only if wallet is connected) : 
+2. Certificate - Logged users : 
 - [ ] List of all NFTs on the owner wallet
 - [ ] One NFT selection
 - [ ] If Oracle doesn't exists, create one
-- [ ] Print all information of the Certificate
+- [ ] Print all Certificate information
 
 ## Build Setup
 
