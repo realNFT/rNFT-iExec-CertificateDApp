@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/realNFT/rNFT-iExec-CertificateDApp/workflows/solidity/badge.svg)](https://github.com/realNFT/rNFT-iExec-CertificateDApp/actions)
+[![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 # rNFT-iExec-CertificateDApp
 
 dApp where users can create an edition certificate of their NFT and corresponding oracle to trigger OpenSea API.
@@ -28,6 +30,13 @@ Hardhat repository with all iExec Oracle contract are in [`solidity/`]("https://
 - [ ] One NFT selection
 - [ ] If Oracle doesn't exists, create one
 - [ ] Print all Certificate information
+
+
+## Solidity
+
+- [x] Write smart contracts
+- [x] Tests with 100% coverage
+- [x] Workflows 
 
 ## Build Setup
 
@@ -96,3 +105,8 @@ More information about the usage of this directory in [the documentation](https:
 This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
 
 More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+
+
+## 📄 License
+
+**rNFT iExec CertificateDApp** is released under the [MIT](LICENSE).

@@ -1,3 +1,4 @@
+[![Actions Status](https://github.com/realNFT/rNFT-iExec-CertificateDApp/workflows/solidity/badge.svg)](https://github.com/realNFT/rNFT-iExec-CertificateDApp/actions)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -59,4 +60,4 @@ $ npx hardhat  verify --network mainnet $CONTRACT_ADDRESS $CONSTRUCTOR_ARGUMENTS
 
 ## 📄 License
 
-**rNFT iExec CertificateDApp** is released under the [MIT](LICENSE).
+**rNFT iExec CertificateDApp Solidity contracts** is released under the [MIT](LICENSE).
