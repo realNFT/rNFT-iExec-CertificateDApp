@@ -74,7 +74,7 @@ describe("Certificate Mint", () => {
         tokenId721 = 0;
         oracleId721 = ethers.utils.solidityKeccak256([ "address", "uint256" ], [smartContract721, tokenId721]); // To keep simple the Oracle Id here is the same has the hash key
 
-        // 3. Check getOracleValue function and reverts
+        // 3. Check getOracleValue function and reverts 
         smartContract1155 = mockERC1155.address;
         tokenId1155 = 2;
         tokenIdWrong = 100;
@@ -87,7 +87,7 @@ describe("Certificate Mint", () => {
         it("mockERC721 should be deployed and addr1 should own token 0", async () => {
             expect(await mockERC721.ownerOf(0)).to.equal(addr1.address);
         });
-
+    
         it("mockERC155 should be deployed and addr2 should own token 2", async () => {
             expect(await mockERC1155.balanceOf(addr2.address, 2)).to.equal(1);
         });
@@ -99,6 +99,15 @@ describe("Certificate Mint", () => {
 
         it("mockCertificateMint should be deployed", async () => {
             expect(await mockCertificateMint.getOracleContract()).to.equal(mockIExecOracle.address);
+        });
+
+        it("mockCertificateMint check changeBase uri", async () => {
+            mockCertificateMint.connect(addr1).mint(smartContract721, tokenId721).then(async () => {
+                expect(await mockCertificateMint.tokenURI(tokenId721)).to.equal("https://metadatas.rnft.fake/0");
+                mockCertificateMint.connect(owner).changeBaseURI("test/").then(async () => {
+                    expect(await mockCertificateMint.tokenURI(tokenId721)).to.equal("test/0");
+                });
+            });
         });
 
     });
@@ -124,23 +133,52 @@ describe("Certificate Mint", () => {
 
     }); 
 
-    describe("3. Check getOracleValue function and reverts", () => {
-        it("should revert beceause Oracle doesn't work", async () => {
+    describe("3. Check getOracleValue function and reverts ", () => {
+        it("getOracleValue should revert because Oracle doesn't exist", async () => {
             await expect(mockCertificateMint.connect(owner).getOracleValue(smartContract1155, tokenIdWrong)).to.be.revertedWith('CertificateMint - Oracle doesn\'t exist, please create one before call this function');
         });
 
-        it("should return 1.2 ether oracle value", async () => {
-            await mockCertificateMint.connect(owner).newOracleIds(smartContract721, tokenId721, oracleId721);
-            expect((await mockCertificateMint.getOracleValue(smartContract721, tokenId721))).to.equal(ethers.utils.parseEther("1.2").toString());
+        it("getOracleValue should revert because zero addrress", async () => {
+            await expect(mockCertificateMint.connect(owner).getOracleValue(ethers.constants.AddressZero, tokenIdWrong)).to.be.revertedWith("CertificateMint - Smart contract address need to be different to the zero address");
         });
 
-        it("should return 1.2 ether oracle value", async () => {
-            await mockCertificateMint.connect(owner).newOracleIds(smartContract1155, tokenId1155, oracleId1155);
-            expect((await mockCertificateMint.getOracleValue(smartContract1155, tokenId1155))).to.equal(ethers.utils.parseEther("0.3").toString());
+        it("getOracleValue should return 1.2 ether oracle value", async () => {
+            mockCertificateMint.connect(owner).newOracleIds(smartContract721, tokenId721, oracleId721).then( async () => {
+                expect(await mockCertificateMint.getOracleValue(smartContract721, tokenId721)).to.equal(ethers.utils.parseEther("1.2").toString())
+            });
+        });
+
+        it("getOracleValue should return 1.2 ether oracle value", async () => {
+            mockCertificateMint.connect(owner).newOracleIds(smartContract1155, tokenId1155, oracleId1155).then( async () => {
+                expect((await mockCertificateMint.getOracleValue(smartContract1155, tokenId1155))).to.equal(ethers.utils.parseEther("0.3").toString());
+            });
         });
     });
 
-    /*describe("4. Check mint function and reverts", () => {
+    describe("4. Check mint function and reverts", () => {
+        it("should revert because addr4.address has not a valid interface", async () => {
+           await expect(mockCertificateMint.connect(addr3).mint(addr3.address, 0)).to.be.revertedWith("CertificateMint - Only ERC721 and ERC1155 contract standards are supported");
+        });
         
-    });*/
+        it("should revert because addr3 isn't owner of the NFT from ERC1155 contract", async () => {
+            await expect(mockCertificateMint.connect(addr3).mint(smartContract1155, tokenId1155)).to.be.revertedWith("CertificateMint - ERC1155 - You are not the owner of this NFT");
+        })
+
+
+        it("should revert because addr4 isn't owner of the NFT from ERC721 contract", async () => {
+            await expect(mockCertificateMint.connect(addr4).mint(smartContract721, tokenId721)).to.be.revertedWith("CertificateMint - ERC721 - You are not the owner of this NFT");
+        })
+
+        it("should mint one reproduction certificate for addr2 ERC1155", async () => {
+            mockCertificateMint.connect(addr2).mint(smartContract1155, tokenId1155).then(async () => {
+                expect(await mockCertificateMint.balanceOf(addr2)).to.equal(1);
+            });
+        });
+
+        it("should mint one reproduction certificate for addr1 ERC721", async () => {
+            mockCertificateMint.connect(addr1).mint(smartContract721, tokenId721).then(async () => {
+                expect(await mockCertificateMint.balanceOf(addr1)).to.equal(1);
+            });
+        })
+    });
 })

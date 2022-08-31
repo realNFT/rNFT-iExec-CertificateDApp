@@ -40,9 +40,6 @@ contract CertificateMint is ERC721A, Ownable {
     // Map the has of AddressTokenId to OracleID
     mapping(bytes32 => bytes32) private _oracleIds;
 
-    // Map the hash of AddressTokenId to Oracle value
-    mapping(bytes32 => int256) private _lastPrices;
-
     modifier onlyERC721orERC1155(address _smartContract) {
         require(
             _smartContract.supportsInterface(_interfaceERC721) ||
@@ -55,10 +52,10 @@ contract CertificateMint is ERC721A, Ownable {
     modifier onlyNFTOwner(address _smartContract, uint256 _tokenId) {
         if (_smartContract.supportsInterface(_interfaceERC721))
             require(
-                IERC721(_smartContract).ownerOf(_tokenId) != msg.sender,
+                IERC721(_smartContract).ownerOf(_tokenId) == address(msg.sender),
                 "CertificateMint - ERC721 - You are not the owner of this NFT"
             );
-        else
+        else if(_smartContract.supportsInterface(_interfaceERC1155))
             require(
                 IERC1155(_smartContract).balanceOf(msg.sender, _tokenId) != 0,
                 "CertificateMint - ERC1155 - You are not the owner of this NFT"
@@ -120,6 +117,10 @@ contract CertificateMint is ERC721A, Ownable {
         returns (int256)
     {
         bytes32 hashKey = keccak256(abi.encodePacked(_smartContract, _tokenId));
+        require(
+            _smartContract != address(0x0),
+            "CertificateMint - Smart contract address need to be different to the zero address"
+        );
 
         require(
             _oracleIds[hashKey] != 0x0,
@@ -128,25 +129,9 @@ contract CertificateMint is ERC721A, Ownable {
 
         (int256 value, ) = _oracle.getInt(_oracleIds[hashKey]);
 
-        console.log(uint256(value));
-
-        _lastPrices[hashKey] = int256(value);
+        //console.log(uint256(value));
 
         return value;
-    }
-
-    /**
-     * @param _smartContract is the smart contract address of the NFT
-     * @param _tokenId is the tokenId of the NFT
-     * @return _lastPrices of a specific NFT
-     */
-    function getLastPrice(address _smartContract, uint256 _tokenId)
-        public
-        view
-        returns (int256)
-    {
-        return
-            _lastPrices[keccak256(abi.encodePacked(_smartContract, _tokenId))];
     }
 
     /**
