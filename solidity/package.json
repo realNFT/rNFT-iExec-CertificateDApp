@@ -39,7 +39,7 @@
     "@openzeppelin/contracts": "^4.1.0",
     "dotenv": "^16.0.1",
     "prettier": "^2.3.0",
-    "solc": "npm:solc@^0.8.4",
+    "solc": "npm:solc@^0.8.11",
     "solidity-coverage": "^0.7.16",
     "solidity-docgen": "^0.5.13",
     "surya": "^0.4.2",
