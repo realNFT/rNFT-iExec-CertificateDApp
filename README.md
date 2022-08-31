@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/realNFT/rNFT-iExec-CertificateDApp/workflows/solidity/badge.svg)](https://github.com/realNFT/rNFT-iExec-CertificateDApp/actions)
+[![Actions Status](https://github.com/realNFT/rNFT-iExec-CertificateDApp/actions/workflows/solidity.yml/badge.svg)](https://github.com/realNFT/rNFT-iExec-CertificateDApp/actions)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 # rNFT-iExec-CertificateDApp
 

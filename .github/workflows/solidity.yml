@@ -1,4 +1,4 @@
-name: Solidity Smart Contracts (Compile, Tests)
+name: Solidity
 
 on:
   push:
@@ -27,6 +27,6 @@ jobs:
       - name: Go to Soldity repository and install dependencies
         run: cd solidity/ && npm ci
       - name: Compile contracts
-        run: npm run compile
+        run: cd solidity/ && npm run compile
       - name: Test contracts
-        run: npm run test
+        run: cd solidity/ && npm run test
