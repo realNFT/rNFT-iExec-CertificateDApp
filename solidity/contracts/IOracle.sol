@@ -16,32 +16,24 @@
  * limitations under the License.                                             *
  ******************************************************************************/
 
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.11;
 
-abstract contract Oracle {
+interface IOracle {
     
     function getRaw(bytes32)
-        public
-        view
-        virtual
+        external
         returns (bytes memory, uint256);
 
     function getString(bytes32)
-        public
-        view
-        virtual
+        external
         returns (string memory, uint256);
 
     function getInt(bytes32) 
-        public 
-        view 
-        virtual 
+        external 
         returns (int256, uint256);
 
     function getBool(bytes32) 
-        public 
-        view 
-        virtual 
+        external
         returns (bool, uint256);
 
 }

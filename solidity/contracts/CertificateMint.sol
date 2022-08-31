@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.11;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "../node_modules/erc721a/contracts/ERC721A.sol";
-import "./Oracle.sol";
+import "./IOracle.sol";
 
 import "hardhat/console.sol";
 
@@ -12,10 +13,10 @@ import "hardhat/console.sol";
  * @title CertificateMint 
  * @dev This contract allow creation of reproduction certificate 
  */
-contract CertificateMint is ERC721A {
+contract CertificateMint is ERC721A, Ownable {
     
     // Oracle interface
-    Oracle private _oracle;
+    IOracle private _oracle;
 
     /**
      * @dev Store the address with the token id of the NFT smart contract on the oracle 
@@ -33,7 +34,7 @@ contract CertificateMint is ERC721A {
     mapping(bytes32 => int256) private _lastPrices;
 
     constructor(address _oracleAddress) ERC721A("rNFT Certificate", "RNFT") {
-        _oracle = Oracle(_oracleAddress);
+        _oracle = IOracle(_oracleAddress);
     }
 
     // -----------------------------------------
@@ -43,8 +44,8 @@ contract CertificateMint is ERC721A {
     /**
      * @return _oracle iExec Oracle contract address
      */
-    function getOracleContract() external view returns(Oracle){
-        return _oracle;
+    function getOracleContract() external view returns(address){
+        return address(_oracle);
     }
 
      /**
@@ -100,7 +101,10 @@ contract CertificateMint is ERC721A {
      * @param _smartContract is the smart contract address of the NFT
      * @param _tokenId is the tokenId of the NFT
      */
-    function newOracleIds(address _smartContract, uint256 _tokenId, bytes32 _oracleId) public{
+    function newOracleIds(address _smartContract, uint256 _tokenId, bytes32 _oracleId) 
+        public
+        onlyOwner
+    {
         bytes32 hashKey = keccak256(abi.encodePacked(_smartContract, _tokenId));
 
         require(
