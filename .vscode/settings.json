@@ -1,5 +1,5 @@
 {
-    "solidity.defaultCompiler": "localFile",
+    "solidity.defaultCompiler": "remote",
     "solidity.compileUsingRemoteVersion": "v0.8.11+commit.d7f03943",
-    "solidity.compileUsingLocalVersion": "c:\\Users\\Valentin\\Desktop\\Projet\\rNFT-iExec-CertificateDApp\\soljson-v0.8.11+commit.d7f03943.js"
+    "solidity.compileUsingLocalVersion": "c:\\Users\\Valen\\Desktop\\Projet\\rNFT-iExec-CertificateDApp\\soljson-v0.8.11+commit.d7f03943.js"
 }

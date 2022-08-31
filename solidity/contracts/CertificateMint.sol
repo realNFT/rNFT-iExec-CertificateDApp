@@ -25,6 +25,9 @@ contract CertificateMint is ERC721A, Ownable {
     bytes4 private constant _interfaceERC1155 = 0xd9b67a26;
     bytes4 private constant _interfaceERC721 = 0x80ac58cd;
 
+    // rFNT base URI for certificate
+    string private _rNFTbaseURI;
+
     /**
      * @dev Store the address with the token id of the NFT smart contract on the oracle
      * Oracle GET https://api.opensea.io/api/v1/asset/{asset_contract_address}/{token_id}/
@@ -63,7 +66,8 @@ contract CertificateMint is ERC721A, Ownable {
         _;
     }
 
-    constructor(address _oracleAddress) ERC721A("rNFT Certificate", "RNFT") {
+    constructor(address _oracleAddress, string memory _initBaseURI) ERC721A("rNFT Certificate", "RNFT") {
+        _rNFTbaseURI = _initBaseURI;
         _oracle = IOracle(_oracleAddress);
     }
 
@@ -92,6 +96,14 @@ contract CertificateMint is ERC721A, Ownable {
             _oracleIds[keccak256(abi.encodePacked(_smartContract, _tokenId))];
     }
 
+    /**
+     * @dev Change the baseURI of rNFT certificates
+     * @param _newBaseURI is the new URI
+     */
+    function changeBaseURI(string memory _newBaseURI) onlyOwner external {
+        _rNFTbaseURI = _newBaseURI;
+    }
+
     // -----------------------------------------
     // Public interface
     // -----------------------------------------
@@ -111,12 +123,14 @@ contract CertificateMint is ERC721A, Ownable {
 
         require(
             _oracleIds[hashKey] != 0x0,
-            "CertificateMint - Oracle doesn't exist, please create one before call this function."
+            "CertificateMint - Oracle doesn't exist, please create one before call this function"
         );
 
-        (int256 value, uint256 _date) = _oracle.getInt(_oracleIds[hashKey]);
+        (int256 value, ) = _oracle.getInt(_oracleIds[hashKey]);
 
-        _lastPrices[hashKey] = value;
+        console.log(uint256(value));
+
+        _lastPrices[hashKey] = int256(value);
 
         return value;
     }
@@ -149,7 +163,7 @@ contract CertificateMint is ERC721A, Ownable {
 
         require(
             _oracleId != 0x0,
-            "CertificateMint - Oracle Id must be different of 0."
+            "CertificateMint - Oracle Id must be different of 0"
         );
         require(
             _oracleIds[hashKey] == 0x0,
@@ -186,6 +200,6 @@ contract CertificateMint is ERC721A, Ownable {
         override 
         returns (string memory) 
     {
-        return "METADATA_URI/";
+        return _rNFTbaseURI;
     }
 }
