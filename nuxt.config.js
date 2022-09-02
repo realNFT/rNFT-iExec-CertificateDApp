@@ -3,8 +3,10 @@ export default {
   target: 'static',
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  ssr: true,
 
+  serverMiddleware: ['~/server-middleware/rest.js'],
+  
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'rNFT x iExec',
@@ -31,6 +33,7 @@ export default {
   plugins: [
     { src: '~/plugins/persistedState.js', mode: 'client' },
     '~/plugins/fontAwesome.js',
+    {src: '~plugins/web3modalVue', mode: 'client'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -45,6 +48,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    '@nuxtjs/axios',
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

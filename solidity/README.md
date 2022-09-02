@@ -6,10 +6,17 @@
 
 ## Overview
 
-Solidity smart contract for [rNFT iExec CertificateDApp](https://github.com/realNFT/rNFT-iExec-CertificateDApp).
+Solidity smart contract for [rNFT iExec CertificateDApp](https://github.com/realNFT/rNFT-iExec-CertificateDApp). 
 
-`Oracle` contract represent the iExec Oracle contract
+1. Thanks to frontend, users can ask to register NFT through a smart contract address and a tokenId
+2. If the API call verification return a positive value, then the backend create thanks to [iexec-oracle-factory-wrapper](https://github.com/iExecBlockchainComputing/iexec-oracle-factory-wrapper) the oracle and push the Oracle Id into the smart contract
+3. When it is done, the user can connect on iExec blockchain to mint a repoduction certificate. If he is the NFT owner on the Ethereum mainchain according to the iExec Oracle.
+
+## Contracts
+
+`IOracle` contract represent the interface iExec Oracle contract
 `CertificateMint` store oracles id of different NFTs and mint reproduction certificate
+`MockCertificateMint` is used only for test purpose
 
 ### 📦 Installation
 

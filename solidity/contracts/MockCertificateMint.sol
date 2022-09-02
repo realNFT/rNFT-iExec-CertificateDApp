@@ -66,11 +66,9 @@ contract MockIExecOracle {
         hashKeyERC1155 = keccak256(abi.encodePacked(_addrERC1155, _idERC1155)); 
     }
 
-    function getInt(bytes32 oracleId) external view returns (int256, uint256) {
-        require(
-            hashKeyERC721 != oracleId && hashKeyERC1155 != oracleId,
-            "MockIExecOracle - Wrong oracleID"
-        );
-        return (oracleId == hashKeyERC721 ? int256(1.2 ether) : int256(0.3 ether), uint256(1));
+    function getRaw(bytes32 oracleId) external view returns (bytes memory, uint256) {
+        bytes memory val1 = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
+        bytes memory val2 = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC";
+        return (oracleId == hashKeyERC721 ? val1 : val2, uint256(1));
     }
 }

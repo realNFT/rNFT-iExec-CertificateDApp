@@ -40,7 +40,6 @@
     "dotenv": "^16.0.1",
     "prettier": "^2.3.0",
     "solc": "npm:solc@^0.8.11",
-    "solidity-coverage": "^0.7.16",
     "solidity-docgen": "^0.5.13",
     "surya": "^0.4.2",
     "truffle": "^5.3.7",
@@ -61,6 +60,7 @@
     "hardhat-abi-exporter": "^2.2.1",
     "hardhat-docgen": "^1.1.1",
     "hardhat-gas-reporter": "^1.0.4",
-    "hardhat-tracer": "^1.0.0-alpha.6"
+    "hardhat-tracer": "^1.0.0-alpha.6",
+    "solidity-coverage": "^0.7.21"
   }
 }

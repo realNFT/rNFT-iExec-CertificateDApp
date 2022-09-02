@@ -106,6 +106,23 @@ function iExecVivaniNetworkConfig() {
   };
 }
 
+function iExecBelcourNetworkConfig() {
+  let url = "https://bellecour.iex.ec";
+  let accountPrivateKey = "";
+  if (process.env.IEXEC_BELLECOUR_ENDPOINT) {
+    url = `${process.env.IEXEC_BELLECOUR_ENDPOINT}`;
+  }
+
+  if (process.env.IEXEC_BELLECOUR_PRIVATE_KEY) {
+    accountPrivateKey = `${process.env.IEXEC_BELLECOUR_PRIVATE_KEY}`;
+  }
+
+  return {
+    url: url,
+    accounts: { mnemonic: accountPrivateKey },
+  };
+}
+
 function getEtherscanApiKey() {
   let apiKey = "";
   if (process.env.ETHERSCAN_API_KEY) {
