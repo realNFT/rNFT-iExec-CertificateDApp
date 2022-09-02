@@ -1,7 +1,7 @@
 <template>
     <b-card-text class="row align-content-center justify-content-center">
         <b-col cols="12" xl="4" sm="6">
-            <b-form prevent.submit>
+            <b-form prevent>
                 <h1 class="mb-4"><b>Mint your Certificate</b></h1>
                 <p class="text-justify" style="font-weight: 600;">You can mint the Reproduction Certificate of .</p>
                 <b-row>
@@ -20,7 +20,7 @@
                         </b-form-invalid-feedback>
                     </b-form-group>
                     <b-form-group class="col-4">
-                        <label class="mt-2" for="input-smart-contract-2">Token Id:</label>
+                        <label for="input-smart-contract-2">Token Id:</label>
                         <b-form-input 
                             id="input-smart-contract-2"
                             min="0"

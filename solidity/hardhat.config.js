@@ -33,6 +33,8 @@ module.exports = {
     },
     mainnet: mainnetNetworkConfig(),
     goerli: goerliNetworkConfig(),
+    vivani: iExecVivaniNetworkConfig(),
+    bellecour: iExecBellecourNetworkConfig(),
   },
   abiExporter: {
     path: "./build/abi",
@@ -49,7 +51,19 @@ module.exports = {
     currency: "USD",
   },
   etherscan: {
-    apiKey: `${etherscanApiKey}`
+    apiKey: {
+      apiKey: ""
+    },
+    customChains: [
+      {
+        network: "bellecour",
+        chainId: 134,
+        urls: {
+          apiURL: "https://blockscout-bellecour.iex.ec/api",
+          browserURL: "https://blockscout-bellecour.iex.ec/"
+        }
+      }
+    ]
   },
 };
 
@@ -91,7 +105,7 @@ function goerliNetworkConfig() {
 
 function iExecVivaniNetworkConfig() {
   let url = "https://viviani.iex.ec";
-  let accountPrivateKey = "";
+  let accountPrivateKey = "0x0000000000000000000000000000000000000000000000000000000000000000";
   if (process.env.IEXEC_VIVANI_ENDPOINT) {
     url = `${process.env.IEXEC_VIVANI_ENDPOINT}`;
   }
@@ -102,13 +116,13 @@ function iExecVivaniNetworkConfig() {
 
   return {
     url: url,
-    accounts: { mnemonic: accountPrivateKey },
+    accounts: [accountPrivateKey],
   };
 }
 
-function iExecBelcourNetworkConfig() {
+function iExecBellecourNetworkConfig() {
   let url = "https://bellecour.iex.ec";
-  let accountPrivateKey = "";
+  let accountPrivateKey = "0x0000000000000000000000000000000000000000000000000000000000000000";
   if (process.env.IEXEC_BELLECOUR_ENDPOINT) {
     url = `${process.env.IEXEC_BELLECOUR_ENDPOINT}`;
   }
@@ -119,7 +133,7 @@ function iExecBelcourNetworkConfig() {
 
   return {
     url: url,
-    accounts: { mnemonic: accountPrivateKey },
+    accounts: [accountPrivateKey],
   };
 }
 

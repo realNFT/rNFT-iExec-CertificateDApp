@@ -14,7 +14,7 @@ app.all('/createOracle', (req, res) => {
     
     const provider = new ethers.providers.JsonRpcProvider(rpc)
     CertificateMint = new ethers.Contract(
-        "", // Address
+        "0x3eca1B216A7DF1C7689aEb259fFB83ADFB894E7f", // iExec Oracle contract
         CertificateMint.abi,
         provider
     ) 

@@ -1,7 +1,7 @@
 <template>
     <div style="min-height: 90vh;">
         <Navbar/>
-        <b-container class="mt-5">
+        <b-container class="mt-4 mb-4">
             <b-card class="bg-cutsom" style="min-height: 40vh;">
                 <nuxt/>
             </b-card>
