@@ -4,13 +4,16 @@
 
 dApp where users can create an edition certificate of their NFT and corresponding oracle to trigger OpenSea API.
 
-Two major features will be available:
-- Create an oracle on iExec (if not already existing) of the last price available via the opensea API wich can be trigged by anyone.
-- Mint an edition certificate by the owner of the NFT (creation of an oracle at the same time if it does not exist).
+## Overview
 
+Nuxt SSR application for [rNFT iExec CertificateDApp](https://github.com/realNFT/rNFT-iExec-CertificateDApp).
 Hardhat repository with all iExec Oracle contract are in [`solidity/`]("https://github.com/realNFT/rNFT-iExec-CertificateDApp/tree/main/solidity") folder.
 
-# Nuxt Frontend
+1. Thanks to frontend, users can ask to register NFT through a smart contract address and a tokenId
+2. If the API call verification return a positive value, then the backend create thanks to [iexec-oracle-factory-wrapper](https://github.com/iExecBlockchainComputing/iexec-oracle-factory-wrapper) the oracle and push the Oracle Id into the smart contract
+3. When it is done, the user can connect on iExec blockchain to mint a repoduction certificate. If he is the NFT owner on the Ethereum mainchain according to the iExec Oracle.
+
+
 ## Summary : 
 1. Oracle creation
 2. Certificate mint
@@ -20,17 +23,17 @@ Hardhat repository with all iExec Oracle contract are in [`solidity/`]("https://
 
 1. Oracle - All users :
 	
-- [ ] One form to fetch opensea URL of the NFT
-- [ ] Print NFT information
-- [ ] Validation button 
+- [x] One form to fetch opensea URL of the NFT
+- [x] Test API Call
+- [x] Validation button 
 	
 	
 2. Certificate - Logged users : 
-- [ ] List of all NFTs on the owner wallet
-- [ ] One NFT selection
+- [ ] Select all mint choices for one NFT
 - [ ] If Oracle doesn't exists, create one
-- [ ] Print all Certificate information
+- [ ] Mint the NFT
 
+- [ ] Deploy on Github Page
 
 ## Solidity
 

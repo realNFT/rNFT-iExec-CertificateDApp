@@ -1,6 +1,6 @@
 import Web3ModalVue from "web3modal-vue";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import Fortmatic from "fortmatic";
+import { ethers } from "ethers";
 import Torus from "@toruslabs/torus-embed";
 
 export default {
@@ -17,27 +17,20 @@ export default {
                             "4a123ad7b64e4650b483101494ba445a", // a changer
                     },
                 },
-                fortmatic: {
-                    package: Fortmatic, // required
-                    options: {
-                        key: "pk_live_9D22DCF3F3B8F3A1", // required a changer
-                        network: {
-                            rpcUrl: "https://rpc-mainnet.maticvigil.com",
-                            chainId: 137,
-                        },
-                    },
-                },
                 torus: {
                     package: Torus, // required
                     options: {
                         networkParams: {
-                            host: "https://rpc-mainnet.maticvigil.com",
-                            chainId: 137,
+                            host: "https://viviani.iex.ec",
+                            chainId: 133,
                         },
 
                     },
                 },
             },
+            provider: null,
+            library: null,
+            network: null,
         }
     },
     methods: {
@@ -55,9 +48,10 @@ export default {
             this.library.pollingInterval = 12000;
 
             const accounts = await this.library.listAccounts();
-            if (accounts.length > 0) 
-                this.account = accounts[0]; // Comit persisted store
-
+            if (accounts.length > 0){
+                this.isConnected = accounts[0]; // Comit persisted store
+                this.$store.commit("setUser", this.isConnected)
+            }
             this.network = await this.library.getNetwork().chainId;
 
             this.provider.on("connect", async (info) => {
@@ -70,6 +64,16 @@ export default {
                 this.chainId = parseInt(chainId);
                 if (chainId) console.log("chainChanged", parseInt(chainId));
             });
-        }
+        },
+        trunc(addr) {
+            addr = String(addr)
+            return addr.substring(0,5) + "...." + addr.substring(addr.length - 3,addr.length)
+        },
+        disconnect() {
+            this.isConnected = ""
+            this.$store.commit("setUser", "")
+            this.isDeployer = this.$store.state.deployer === this.isConnected
+            sessionStorage.clear()
+        },
     }
 }

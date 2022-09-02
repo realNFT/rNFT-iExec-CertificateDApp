@@ -21,10 +21,6 @@ contract CertificateMint is ERC721A, Ownable {
     // Oracle interface
     IOracle private _oracle;
 
-    // these constant are used to checked if smart contract address is either on of them
-    bytes4 private constant _interfaceERC1155 = 0xd9b67a26;
-    bytes4 private constant _interfaceERC721 = 0x80ac58cd;
-
     // rFNT base URI for certificate
     string private _rNFTbaseURI;
 
@@ -40,26 +36,14 @@ contract CertificateMint is ERC721A, Ownable {
     // Map the has of AddressTokenId to OracleID
     mapping(bytes32 => bytes32) private _oracleIds;
 
-    modifier onlyERC721orERC1155(address _smartContract) {
+    modifier onlyEthereumOwner(address _smartContract, uint256 _tokenId){
+        //console.log(msg.sender == getOracleValue(_smartContract, _tokenId));
+        //console.log(msg.sender, getOracleValue(_smartContract, _tokenId));
+        
         require(
-            _smartContract.supportsInterface(_interfaceERC721) ||
-                _smartContract.supportsInterface(_interfaceERC1155),
-            "CertificateMint - Only ERC721 and ERC1155 contract standards are supported"
+           msg.sender == getOracleValue(_smartContract, _tokenId),
+            "CertificateMint - You are not the owner of this NFT according to OpenSea API"
         );
-        _;
-    }
-
-    modifier onlyNFTOwner(address _smartContract, uint256 _tokenId) {
-        if (_smartContract.supportsInterface(_interfaceERC721))
-            require(
-                IERC721(_smartContract).ownerOf(_tokenId) == address(msg.sender),
-                "CertificateMint - ERC721 - You are not the owner of this NFT"
-            );
-        else if(_smartContract.supportsInterface(_interfaceERC1155))
-            require(
-                IERC1155(_smartContract).balanceOf(msg.sender, _tokenId) != 0,
-                "CertificateMint - ERC1155 - You are not the owner of this NFT"
-            );
         _;
     }
 
@@ -106,17 +90,19 @@ contract CertificateMint is ERC721A, Ownable {
     // -----------------------------------------
 
     /**
-     * @dev getOracleValue fetch the last price of an NFT thanks to it's address and tokenId
+     * @dev getOracleValue fetch the owner of an NFT in different chain thanks to it's address and tokenId
      * @dev lastPrices get updated if the Oracle existed
      * @param _smartContract is the smart contract address of the NFT
      * @param _tokenId is the tokenId of the NFT
-     * @return value result from the computation of the following API call GET https://api.opensea.io/api/v1/asset/{_smartContract}/{_tokenID}/
+     * @return value result from the computation of the following API call GET https://api.opensea.io/api/v1/asset/{_smartContract}/{_tokenID}/ to GET the owner on Ethereum main chain
      */
     function getOracleValue(address _smartContract, uint256 _tokenId)
         public
-        returns (int256)
+        returns (address)
     {
+        address addr;
         bytes32 hashKey = keccak256(abi.encodePacked(_smartContract, _tokenId));
+        
         require(
             _smartContract != address(0x0),
             "CertificateMint - Smart contract address need to be different to the zero address"
@@ -127,11 +113,13 @@ contract CertificateMint is ERC721A, Ownable {
             "CertificateMint - Oracle doesn't exist, please create one before call this function"
         );
 
-        (int256 value, ) = _oracle.getInt(_oracleIds[hashKey]);
+        (bytes memory value, ) = _oracle.getRaw(_oracleIds[hashKey]);
 
-        //console.log(uint256(value));
+        assembly {
+            addr := mload(add(value,20))
+        }
 
-        return value;
+        return addr;
     }
 
     /**
@@ -165,8 +153,7 @@ contract CertificateMint is ERC721A, Ownable {
      **/
     function mint(address smartContract, uint256 tokenId)
         public
-        onlyERC721orERC1155(smartContract)
-        onlyNFTOwner(smartContract, tokenId)
+        onlyEthereumOwner(smartContract, tokenId)
     {
         _mint(msg.sender, 1);
     }

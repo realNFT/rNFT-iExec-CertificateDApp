@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           architecture: ${{ matrix.architecture }}
-      - name: Go to Soldity repository and install dependencies
+      - name: Install dependencies
         run: cd solidity/ && npm ci
       - name: Compile contracts
         run: cd solidity/ && npm run compile
