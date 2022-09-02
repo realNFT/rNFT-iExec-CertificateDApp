@@ -50,7 +50,6 @@ describe("Certificate Mint", () => {
         MockCertificateMint = await ethers.getContractFactory("MockCertificateMint");
 
         [owner, addr1, addr2, addr3, addr4] = await ethers.getSigners();
-        OWNER1 
 
     });
 
