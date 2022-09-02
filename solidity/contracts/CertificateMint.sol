@@ -37,8 +37,10 @@ contract CertificateMint is ERC721A, Ownable {
     mapping(bytes32 => bytes32) private _oracleIds;
 
     modifier onlyEthereumOwner(address _smartContract, uint256 _tokenId){
+        //console.log(msg.sender == getOracleValue(_smartContract, _tokenId));
+        console.log(msg.sender, getOracleValue(_smartContract, _tokenId));
         require(
-            address(msg.sender) == getOracleValue(_smartContract, _tokenId),
+            msg.sender == getOracleValue(_smartContract, _tokenId),
             "CertificateMint - You are not the owner of this NFT according to OpenSea API"
         );
         _;
@@ -97,7 +99,6 @@ contract CertificateMint is ERC721A, Ownable {
         public
         returns (address)
     {
-        address addr;
         bytes32 hashKey = keccak256(abi.encodePacked(_smartContract, _tokenId));
         
         require(
@@ -111,15 +112,10 @@ contract CertificateMint is ERC721A, Ownable {
         );
 
         (bytes memory value, ) = _oracle.getRaw(_oracleIds[hashKey]);
-        
 
-        assembly {
-            addr := mload(add(value,32))
-        } 
+        console.log(abi.decode(value, (address)));
 
-        //console.log(addr);
-
-        return addr;
+        return abi.decode(value, (address));
     }
 
     /**

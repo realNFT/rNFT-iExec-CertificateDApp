@@ -67,8 +67,8 @@ contract MockIExecOracle {
     }
 
     function getRaw(bytes32 oracleId) external view returns (bytes memory, uint256) {
-        bytes memory val1 = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
-        bytes memory val2 = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC";
+        bytes memory val1 = abi.encodePacked(0x70997970C51812dc3A010C7d01b50e0d17dc79C8);
+        bytes memory val2 = abi.encodePacked(0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC);
         return (oracleId == hashKeyERC721 ? val1 : val2, uint256(1));
     }
 }
