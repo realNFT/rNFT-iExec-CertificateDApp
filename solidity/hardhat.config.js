@@ -116,6 +116,7 @@ function iExecVivaniNetworkConfig() {
 
   return {
     url: url,
+    gasPrice: 0, 
     accounts: [accountPrivateKey],
   };
 }
@@ -133,6 +134,7 @@ function iExecBellecourNetworkConfig() {
 
   return {
     url: url,
+    gasPrice: 0, 
     accounts: [accountPrivateKey],
   };
 }

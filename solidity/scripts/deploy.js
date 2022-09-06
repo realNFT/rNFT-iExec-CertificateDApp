@@ -12,7 +12,7 @@ async function main() {
   await contract.deployed();
 
   console.log(
-    `CertificateMint deployed to ${contract.address} with ${iExecOracleAddr} and ${metadataUR}`
+    `CertificateMint deployed to ${contract.address} with ${iExecOracleAddr} and ${metadataURI}`
   );
 }
 

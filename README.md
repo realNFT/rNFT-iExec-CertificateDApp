@@ -6,8 +6,8 @@ dApp where users can create an edition certificate of their NFT and correspondin
 
 ## Overview
 
-Nuxt SSR application for [rNFT iExec CertificateDApp](https://github.com/realNFT/rNFT-iExec-CertificateDApp).
-Hardhat repository with all iExec Oracle contract are in [`solidity/`]("https://github.com/realNFT/rNFT-iExec-CertificateDApp/tree/main/solidity") folder.
+Nuxt SSR application for [rNFT iExec CertificateDApp](/).
+Hardhat repository with all iExec Oracle contract are in [`solidity/`]("/solidity") folder.
 
 1. Thanks to frontend, users can ask to register NFT through a smart contract address and a tokenId
 2. If the API call verification return a positive value, then the backend create thanks to [iexec-oracle-factory-wrapper](https://github.com/iExecBlockchainComputing/iexec-oracle-factory-wrapper) the oracle and push the Oracle Id into the smart contract

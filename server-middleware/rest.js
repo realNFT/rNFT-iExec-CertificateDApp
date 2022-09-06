@@ -21,11 +21,11 @@ app.all('/createOracle', (req, res) => {
     const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider)
     const Factory = new IExecOracleFactory(signer)
 
-    /*let paramSet;
+    let paramSet;
     let cid;
     let oracleId;
 
-    factory.createOracle({
+    Factory.createOracle({
         url: `https://api.opensea.io/api/v1/asset/${this.form.smartContract}/${this.form.tokenId}/`,
         method: 'GET',
         dataType: 'string',
@@ -53,7 +53,7 @@ app.all('/createOracle', (req, res) => {
             console.log(`oracleId: "${oracleId}"`);
         },
     });
-    */
+
 
     return res.json({ data: 'data' })
 })
