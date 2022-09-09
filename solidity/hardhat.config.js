@@ -52,14 +52,14 @@ module.exports = {
   },
   etherscan: {
     apiKey: {
-      apiKey: ""
+      apiKey: process.env.ETHERSCAN
     },
     customChains: [
       {
         network: "bellecour",
         chainId: 134,
         urls: {
-          apiURL: "https://blockscout-bellecour.iex.ec/api",
+          apiURL: "https://blockscout-bellecour.iex.ec/api/eth-rpc",
           browserURL: "https://blockscout-bellecour.iex.ec/"
         }
       }

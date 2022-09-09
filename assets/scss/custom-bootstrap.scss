@@ -1,9 +1,9 @@
 
 // Brand Colors
-$blue: #1f55ce;
+$blue: #A9C4FF;
 $indigo: #6610f2;
 $purple: #e4a6de;
-$pink: #e8318d;
+$pink: #FFC2E0;
 $red: #ff3636;
 $orange: #F15E44;
 $yellow: #fcd15a;
@@ -36,6 +36,8 @@ $navbar-light-hover-color: rgba($white, 0.8);
 $navbar-light-active-color: rgba($white, 1);
 
 $navbar-light-toggler-icon-bg: var(--hamburger);
+
+$custom-checkbox-indicator-border-radius: .25rem;
 
 
 @import "@/node_modules/bootstrap/scss/functions";

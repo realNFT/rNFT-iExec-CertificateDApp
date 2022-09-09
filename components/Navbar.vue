@@ -16,9 +16,9 @@
 
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav  class="ml-auto letter-navbar">
-                     <b-nav-item to="/" :active="active === 'home'" @click="active = 'home'"><b>Home</b></b-nav-item>
-                    <b-nav-item to="/create" :active="active === 'create'" @click="active = 'create'"><b>Create Oracle</b></b-nav-item>
-                    <b-nav-item to="/mint" :active="active === 'mint'" @click="active = 'mint'"><b>Mint Certificate</b></b-nav-item>
+                     <b-nav-item to="/" :active="$route.path === '/'" ><b>Home</b></b-nav-item>
+                    <b-nav-item to="/oracle" :active="$route.path === '/oracle'"><b>iExec Oracle</b></b-nav-item>
+                    <b-nav-item to="/mint" :active="$route.path === '/mint'" ><b>Mint Certificate</b></b-nav-item>
                 </b-navbar-nav>
                 
                 <b-navbar-nav  v-if="!isConnected">

@@ -2,7 +2,7 @@
     <div style="min-height: 90vh;">
         <Navbar/>
         <b-container class="mt-4 mb-4">
-            <b-card class="bg-cutsom" style="min-height: 40vh;">
+            <b-card class="bg-cutsom text-dark" style="min-height: 40vh;">
                 <nuxt/>
             </b-card>
         </b-container>

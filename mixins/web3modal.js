@@ -22,7 +22,7 @@ export default {
                     options: {
                         networkParams: {
                             host: "https://viviani.iex.ec",
-                            chainId: 133,
+                            chainId: 134,
                         },
 
                     },
@@ -46,6 +46,7 @@ export default {
             }
             this.library = new ethers.providers.Web3Provider(this.provider);
             this.library.pollingInterval = 12000;
+            
 
             const accounts = await this.library.listAccounts();
             if (accounts.length > 0){
@@ -53,15 +54,46 @@ export default {
                 this.$store.commit("setUser", this.isConnected)
             }
             this.network = await this.library.getNetwork().chainId;
+            
 
             this.provider.on("connect", async (info) => {
                 this.chainId = parseInt(info.chainId);
+                if (this.chainId != '134') 
+                    window.ethereum.request({
+                        method: "wallet_addEthereumChain",
+                        params: [{
+                            chainId: "0x86",
+                            rpcUrls: ["https://viviani.iex.ec"],
+                            chainName: "iExec Sidechain",
+                            nativeCurrency: {
+                                name: "xRLC",
+                                symbol: "xRLC",
+                                decimals: 18
+                            },
+                            blockExplorerUrls: ["https://blockscout-viviani.iex.ec"]
+                        }]
+                    });
                 this.network = this.chainId;
                 console.log("connect", info);
             });
 
             this.provider.on("chainChanged", async (chainId) => {
                 this.chainId = parseInt(chainId);
+                if (this.chainId != '134') 
+                    window.ethereum.request({
+                        method: "wallet_addEthereumChain",
+                        params: [{
+                            chainId: "0x86",
+                            rpcUrls: ["https://viviani.iex.ec"],
+                            chainName: "iExec Sidechain",
+                            nativeCurrency: {
+                                name: "xRLC",
+                                symbol: "xRLC",
+                                decimals: 18
+                            },
+                            blockExplorerUrls: ["https://blockscout-viviani.iex.ec"]
+                        }]
+                    });
                 if (chainId) console.log("chainChanged", parseInt(chainId));
             });
         },

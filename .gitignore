@@ -93,3 +93,6 @@ sw.*
 .vscode
 
 package-lock.json
+
+# AWS EC2
+*.ppk
