@@ -7,6 +7,10 @@ export default {
 
   serverMiddleware: ['~/server-middleware/rest.js'],
   
+  axios: {
+    baseUrl: process.env.PRODUCTION ? 'https://certificate.rnft.fr' : 'http://localhost:3000'
+  }, 
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'rNFT x iExec',
@@ -79,7 +83,7 @@ export default {
 
   fontawesome: {
     icons: {
-      solid: [ "faRightToBracket", "faWallet"],
+      solid: [ "faRightToBracket", "faWallet", "faRotate"],
       //brands: ['faLinkedinIn', 'faTwitter', 'faFacebookF'],
       //regular: ['faWallet'],
     }

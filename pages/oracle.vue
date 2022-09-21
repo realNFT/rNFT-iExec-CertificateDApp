@@ -7,12 +7,12 @@
                 <p class="text-justify small" style="font-weight: 600;">This Oracle will trigger the API call GET <a href="https://docs.nftport.xyz/docs/nftport/b3A6MjAzNDUzNTM-retrieve-nft-details">https://api.nftport.xyz/v0/nfts/{contract_address}/{token_id}</a> from NFTPort API to find the actual owner of the NFT on Etherum mainnet.</p>
                 <b-form-group>
                     <label for="input-smart-contract">Smart Contract Address:</label>
+                    <span v-b-tooltip.hover title="Refresh oracle data"><a href="" class="pl-2" @click="checkExisting()"><font-awesome-icon  style="max-height: 18px" icon="rotate"/> </a></span>
                     <b-form-input
                         v-if="!loading"
                         id="input-smart-contract"
                         v-model="form.smartContract"
                         :state="valid.smartContract"
-                        @mouseleave="checkExisting()"
                         aria-describedby="feedback-smartContract"
                         placeholder="0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
                         trim
@@ -24,6 +24,7 @@
                 </b-form-group>
                 <b-form-group>
                     <label class="mt-2" for="input-smart-contract-2">Token Id:</label>
+                    <span v-b-tooltip.hover title="Refresh oracle data"><a href="" class="pl-2" @click="checkExisting()"><font-awesome-icon  style="max-height: 18px" icon="rotate"/> </a></span>
                     <b-form-input 
                         v-if="!loading"
                         id="input-smart-contract-2"
@@ -31,7 +32,6 @@
                         v-model="form.tokenId"
                         :state="valid.tokenId"
                         type="number"
-                        @mouseleave="checkExisting()"
                         aria-describedby="feedback-tokenId"
                         placeholder="0"
                         trim

@@ -1,21 +1,21 @@
 <template>
     <div class="row align-content-center justify-content-center">
         <Notification :notif="notif"/>
-         <no-ssr>
+         <client-only>
             <web3-modal-vue ref="web3modal" theme="dark" :provider-options="providerOptions" cache-provider />
-         </no-ssr>
+         </client-only>
         <b-col cols="12" xl="4" sm="6">
             <b-form prevent>
                 <h1 class="mb-4"><b>Mint your Certificate</b></h1>
                 <p class="text-justify" style="font-weight: 600;">Mint the certificate only if you are owner of the NFT on mainnet.</p>
                 <b-form-group>
                     <label for="input-smart-contract">Smart Contract Address:</label>
+                    <span v-b-tooltip.hover title="Refresh oracle data"><a href="" class="pl-2" @click="checkExisting()"><font-awesome-icon  style="max-height: 18px" icon="rotate"/> </a></span>
                     <b-form-input
                         v-if="!loading"
                         id="input-smart-contract"
                         v-model="form.smartContract"
                         :state="valid.smartContract"
-                        @mouseleave="checkExisting()"
                         aria-describedby="feedback-smartContract"
                         placeholder="0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
                         trim
@@ -26,14 +26,14 @@
                     </b-form-invalid-feedback>
                 </b-form-group>
                 <b-form-group>
-                    <label for="input-smart-contract-2">Token Id:</label>
+                    <label for="input-smart-contract-2">Token Id:  </label>
+                    <span v-b-tooltip.hover title="Refresh oracle data"><a href="" class="pl-2" @click="checkExisting()"><font-awesome-icon  style="max-height: 18px" icon="rotate"/> </a></span>
                     <b-form-input 
                         v-if="!loading"
                         id="input-smart-contract-2"
                         min="0"
                         v-model="form.tokenId"
                         :state="valid.tokenId"
-                        @mouseleave="checkExisting()"
                         type="number"
                         aria-describedby="feedback-tokenId"
                         placeholder="0"

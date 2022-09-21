@@ -31,8 +31,8 @@ Hardhat repository with all iExec Oracle contract are in [`solidity/`](/solidity
 	
 2. Certificate - Logged users : 
 - [x] Select all mint choices for one NFT
-- [ ] If Oracle doesn't exists, create one
-- [ ] Mint the NFT
+- [x] If Oracle doesn't exists, create one
+- [x] Mint the NFT
 
 - [ ] Deploy on Github Page
 
