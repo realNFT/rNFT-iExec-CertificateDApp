@@ -1,10 +1,12 @@
 import CertificateMintJSON from "../solidity/artifacts/contracts/CertificateMint.sol/CertificateMint.json" 
-import { IExecOracleFactory, utils } from '../node_modules/@iexec/iexec-oracle-factory-wrapper'
+import { IExecOracleFactory, utils } from '@iexec/iexec-oracle-factory-wrapper'
 import { ethers } from "ethers";
 
 const rpc = "https://viviani.iex.ec"
 const bodyParser = require('body-parser')
 const app = require('express')()
+const http = require("https");
+
 
 
 const provider = new ethers.providers.JsonRpcProvider(rpc)
@@ -175,5 +177,65 @@ app.get('/test', (req, res) => {
         });
     });
 })
+
+// fetch NFTs of an account - I'm not sure about the code here :
+
+
+// const options = {
+//   method: "GET",
+//   hostname: "api.nftport.xyz",
+//   port: null,
+//   path: "/v0/accounts/0xABf804a94d3E7202d8D7dF4809c5140c15B59434?chain=ethereum",
+//   headers: {
+//     "Content-Type": "application/json",
+//     // Authorization: "0a808c9d-adee-4adc-8127-2a271075f458",
+//     Authorization: process.env.API_KEY,
+//   },
+// };
+
+// const req = http.request(options, function (res) {
+//   const chunks = [];
+
+//   res.on("data", function (chunk) {
+//     chunks.push(chunk);
+//   });
+
+//   res.on("end", function () {
+//     const body = Buffer.concat(chunks);
+//     console.log(body.toString());
+//   });
+// });
+
+// req.end();
+
+// show details about fetched NFTs of an account :
+
+
+const options2 = {
+  method: "GET",
+  hostname: "api.nftport.xyz",
+  port: null,
+  path: "/v0/nfts/0xce10106559932d385c20f0f99c245ab4bff365f9/306?chain=ethereum&refresh_metadata=true",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "0a808c9d-adee-4adc-8127-2a271075f458",
+  },
+};
+
+const req1 = http.request(options2, function (res) {
+  const chunks = [];
+
+  res.on("data", function (chunk) {
+    chunks.push(chunk);
+  });
+
+  res.on("end", function () {
+    const body = Buffer.concat(chunks);
+    console.log(body.toString());
+  });
+});
+
+req1.end();
+
 
 module.exports = app
