@@ -3,7 +3,6 @@
     <Notification :notif="notif"/>
     <b-col cols="12" xl="12" sm="6">
       <h1 class="text-center"><b>My NFTs</b></h1>
-      <!-- <p class="text-justify small" style="font-weight: 600;">This Oracle will trigger the API call GET <a href="https://docs.nftport.xyz/docs/nftport/b3A6MjAzNDUzNTM-retrieve-nft-details">https://api.nftport.xyz/v0/nfts/{contract_address}/{token_id}</a> from NFTPort API to find the actual owner of the NFT on Etherum mainnet.</p> -->
       <div class="row align-content-center justify-content-center">
         <Card
           v-for="nft in nfts"
@@ -12,9 +11,6 @@
           v-bind:name="nft.name"
           v-bind:image_url="nft.image_url"
         ></Card>
-        <!--        <Card message="hello"></Card>-->
-        <!--        <Card ></Card>-->
-        <!--        <Card></Card>-->
       </div>
 
 

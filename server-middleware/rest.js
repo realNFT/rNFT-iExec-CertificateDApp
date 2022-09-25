@@ -235,10 +235,6 @@ app.get('/list-nft/:walletAddress', async (req, res) => {
     console.log("responsee", res.data)
   })
 
-  // const response = await axios.get("https://jsonplaceholder.typicode.com/todos/1")
-  // const data = response.data
-
-
   // const options = {
   //   method: "GET",
   //   hostname: "api.nftport.xyz",
@@ -253,7 +249,8 @@ app.get('/list-nft/:walletAddress', async (req, res) => {
   const options = {
     method: "GET",
     baseURL: "https://api.nftport.xyz",
-    url: "/v0/accounts/0xABf804a94d3E7202d8D7dF4809c5140c15B59434?chain=ethereum&refresh_metadata=true",
+    url: `/v0/accounts/${walletAddress}`,
+    params: {chain: 'ethereum', refresh_metadata: true},
     headers: {
       "Content-Type": "application/json",
       Authorization: "0a808c9d-adee-4adc-8127-2a271075f458",
@@ -266,22 +263,8 @@ app.get('/list-nft/:walletAddress', async (req, res) => {
     const data = response.data
     const nfts = data.nfts;
 
-
-    // const nftInfoPromises = nfts.map(nft => getNftInfo(nft.contract_address, nft.token_id))
-
     await new Promise(r => setTimeout(r, 1000));
 
-    // for (let i = 0; i < nfts.length; i += 3) {
-    //   const nftInfoPromises = []
-    //   nftInfoPromises.push(getNftInfo(nfts[i].contract_address, nfts[i].token_id))
-    //   nftInfoPromises.push(getNftInfo(nfts[i + 1].contract_address, nfts[i + 1].token_id))
-    //   nftInfoPromises.push(getNftInfo(nfts[i + 1].contract_address, nfts[i + 1].token_id))
-    //
-    //   const responseValues = await Promise.all(nftInfoPromises)
-    //   const values = responseValues.map(response => response.data)
-    //   console.log("values", values)
-    //   await new Promise(r => setTimeout(r, 1000));
-    // }
     const nftInWallet = []
     let i = 0
     let nftInfoPromises = [];
@@ -307,72 +290,11 @@ app.get('/list-nft/:walletAddress', async (req, res) => {
     }
     res.status(200).json(nftInWallet);
 
-    // console.log("nftInfoPromises", nftInfoPromises)
-
-    // await new Promise(r => setTimeout(r, 2000));
-
-    // console.log("nftInfoPromises.length", nftInfoPromises.length)
-    // for (let i = 0; i < nftInfoPromises.length; i += 3) {
-    //   try {
-    //     let reqStatus = 0
-    //     const responseValues = await Promise.all([nftInfoPromises[i], nftInfoPromises[i + 1]])
-    //     const values = responseValues.map(response => response.data)
-    //     console.log("values", values)
-    //     // delay
-    //     await new Promise(r => setTimeout(r, 1000));
-    //   }catch (err){
-    //     console.log("err", err)
-    //   }
-    //
-    // }
-
-
-    // const responseValues = await Promise.all(nftInfoPromises)
-    // const values = responseValues.map(response => response.data)
-    // console.log("values", values)
-    // console.log("responsee", nfts)
   } catch (err) {
     console.log("error", err)
   }
-
-
-  //
-  // const chunks = [];
-  //
-  // const req1 = http.request(options, function (resApi) {
-  //   const chunks = [];
-  //
-  //   resApi.on("data", function (chunk) {
-  //     chunks.push(chunk);
-  //   });
-  //
-  //   resApi.on("end", async function () {
-  //     // const body = Buffer.concat(chunks);
-  //     const body = JSON.parse(Buffer.concat(chunks).toString());
-  //     console.log(body.nfts);
-  //
-  //     for (let nft in body.nfts) {
-  //       const info = await getNftInfo(nft.contract_address, nft.token_id)
-  //       const realInfo = await info.data
-  //       console.log("info", realInfo)
-  //     }
-  //
-  //     // call to get nft infos
-  //
-  //     res.status(200).json(body)
-  //   });
-  //
-  //
-  // })
-  //
-  // req1.end();
-
-
 })
 
-function resolveNfts(arr) {
-  return Promise.all(arr)
-}
 
 function getNftInfo(contract, tokenId) {
   const option = {
@@ -388,65 +310,5 @@ function getNftInfo(contract, tokenId) {
 
   return axios(option)
 }
-
-// fetch NFTs of an account - I'm not sure about the code here :
-
-
-// const options = {
-//   method: "GET",
-//   hostname: "api.nftport.xyz",
-//   port: null,
-//   path: "/v0/accounts/0xABf804a94d3E7202d8D7dF4809c5140c15B59434?chain=ethereum",
-//   headers: {
-//     "Content-Type": "application/json",
-//     // Authorization: "0a808c9d-adee-4adc-8127-2a271075f458",
-//     Authorization: process.env.API_KEY,
-//   },
-// };
-
-// const req = http.request(options, function (res) {
-//   const chunks = [];
-
-//   res.on("data", function (chunk) {
-//     chunks.push(chunk);
-//   });
-
-//   res.on("end", function () {
-//     const body = Buffer.concat(chunks);
-//     console.log(body.toString());
-//   });
-// });
-
-// req.end();
-
-// show details about fetched NFTs of an account :
-
-
-const options2 = {
-  method: "GET",
-  hostname: "api.nftport.xyz",
-  port: null,
-  path: "/v0/nfts/0xce10106559932d385c20f0f99c245ab4bff365f9/306?chain=ethereum&refresh_metadata=true",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: "0a808c9d-adee-4adc-8127-2a271075f458",
-  },
-};
-
-// const req1 = http.request(options2, function (res) {
-//   const chunks = [];
-//
-//   res.on("data", function (chunk) {
-//     chunks.push(chunk);
-//   });
-//
-//   res.on("end", function () {
-//     const body = Buffer.concat(chunks);
-//     console.log(body.toString());
-//   });
-// });
-
-// req1.end();
-
 
 module.exports = app
