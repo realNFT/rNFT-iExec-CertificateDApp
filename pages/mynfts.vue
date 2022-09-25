@@ -1,81 +1,23 @@
 <template>
-  <div class="row align-content-center justify-content-center">
+  <div class="flex-column align-items-center justify-content-center">
     <Notification :notif="notif"/>
-    <b-col cols="12" xl="4" sm="6">
-      <b-form prevent.submit>
-        <h1 class="mb-4"><b>My NFTs</b></h1>
-        <!-- <p class="text-justify small" style="font-weight: 600;">This Oracle will trigger the API call GET <a href="https://docs.nftport.xyz/docs/nftport/b3A6MjAzNDUzNTM-retrieve-nft-details">https://api.nftport.xyz/v0/nfts/{contract_address}/{token_id}</a> from NFTPort API to find the actual owner of the NFT on Etherum mainnet.</p> -->
-        <b-form-group>
-          <label for="input-smart-contract">Smart Contract Address:</label>
-          <span v-b-tooltip.hover title="Refresh oracle data"><a href="" class="pl-2" @click="checkExisting()"><font-awesome-icon
-            style="max-height: 18px" icon="rotate"/> </a></span>
-          <b-form-input
-            v-if="!loading"
-            id="input-smart-contract"
-            v-model="form.smartContract"
-            :state="valid.smartContract"
-            aria-describedby="feedback-smartContract"
-            placeholder="0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
-            trim
-          ></b-form-input>
-          <b-skeleton v-else type="input"></b-skeleton>
-          <b-form-invalid-feedback id="feedback-smartContract">
-            <b>You must enter ERC721 or ERC155 smart contract address.</b>
-          </b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group>
-          <label class="mt-2" for="input-smart-contract-2">Token Id:</label>
-          <span v-b-tooltip.hover title="Refresh oracle data"><a href="" class="pl-2" @click="checkExisting()"><font-awesome-icon
-            style="max-height: 18px" icon="rotate"/> </a></span>
-          <b-form-input
-            v-if="!loading"
-            id="input-smart-contract-2"
-            min="0"
-            v-model="form.tokenId"
-            :state="valid.tokenId"
-            type="number"
-            aria-describedby="feedback-tokenId"
-            placeholder="0"
-            trim
-          ></b-form-input>
-          <b-skeleton v-else type="input"></b-skeleton>
-          <b-form-invalid-feedback id="feedback-tokenId">
-            <b>You must enter an existant token Id from the smart contract.</b>
-          </b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group v-if="oracleId">
-          <label class="mt-2" for="input-smart-contract-2">Oracle ID:</label>
-          <b-form-input
-            v-if="!loading"
-            id="input-smart-contract-3"
-            min="0"
-            type="text"
-            trim
-            v-model="oracleId"
-            disabled
-          ></b-form-input>
-          <b-skeleton v-else type="input"></b-skeleton>
-        </b-form-group>
-        <b-form-group v-if="value">
-          <label class="mt-2" for="input-smart-contract-2">Owner of the NFT (Oracle value):</label>
-          <b-form-input
-            v-if="!loading"
-            id="input-smart-contract-4"
-            min="0"
-            v-model="value"
-            type="number"
-            trim
-            disabled
-          ></b-form-input>
-          <b-skeleton v-else type="input"></b-skeleton>
-        </b-form-group>
+    <b-col cols="12" xl="12" sm="6">
+      <h1 class="text-center"><b>My NFTs</b></h1>
+      <!-- <p class="text-justify small" style="font-weight: 600;">This Oracle will trigger the API call GET <a href="https://docs.nftport.xyz/docs/nftport/b3A6MjAzNDUzNTM-retrieve-nft-details">https://api.nftport.xyz/v0/nfts/{contract_address}/{token_id}</a> from NFTPort API to find the actual owner of the NFT on Etherum mainnet.</p> -->
+      <div class="row align-content-center justify-content-center">
+        <Card
+          v-for="nft in nfts"
+          v-bind:key="nft.name+nft.token_id"
+          v-bind:token_id="nft.token_id"
+          v-bind:name="nft.name"
+          v-bind:image_url="nft.image_url"
+        ></Card>
+        <!--        <Card message="hello"></Card>-->
+        <!--        <Card ></Card>-->
+        <!--        <Card></Card>-->
+      </div>
 
-        <b-form-group class="pt-4">
-          <b-button v-if="!loading" @click="status === 'Create' ? createOracle() : updateOracle()" class="w-100"
-                    variant="primary"><b>{{ `${status} Oracle` }}</b></b-button>
-          <b-skeleton v-else class="w-100" variant="primary" type="button"></b-skeleton>
-        </b-form-group>
-      </b-form>
+
     </b-col>
   </div>
 </template>
@@ -83,14 +25,14 @@
 <script>
 import Notification from "@/components/Notification.vue"
 import {mapState} from 'vuex';
+import Card from "../components/Card";
 
 export default {
   name: "oracle",
   data() {
     return {
       status: null,
-      oracleId: null,
-      value: null,
+      nfts: [],
       form: {
         smartContract: this.$store.state.form.smartContract ? this.$store.state.form.smartContract : null,
         tokenId: this.$store.state.form.tokenId ? this.$store.state.form.tokenId : null,
@@ -104,12 +46,49 @@ export default {
     }
   },
   components: {
+    Card,
     Notification
   },
-  mounted() {
-    console.log("hello I'm mounted");
+  async mounted() {
+    // (async ()=>{
+    //
+    // })();
+
+    console.log("hello I'm mounted with ", this.nfts);
     const walledAddress = this.$store.state.isConnected;
-    this.listNft(walledAddress);
+    if(!walledAddress)return;
+
+    const result = await this.listNft(walledAddress);
+
+    // this.nfts = await this.listNft(walledAddress);
+
+    const nftsToDisplay = []
+
+    console.log("result", result)
+    for (let nft of result) {
+      const obj = {
+        name: nft.contract.name,
+        token_id: nft.nft.token_id,
+        image_url: '@/assets/images/image-equilibrium.jpg'
+      };
+      if (nft.nft.hasOwnProperty("metadata_url") && nft.contract.type === "ERC721") {
+        const url = this.getHttpsUrlFromIpfs(nft.nft.metadata_url)
+        console.log("url", url)
+        try {
+          console.log("nft.nft.metadata_url", nft.nft.metadata_url)
+          const resi = await this.$axios.get(url, {baseURL: undefined});
+          console.log("res from api ipfs", resi.data)
+          const image_url = this.getHttpsUrlFromIpfs(resi.data.image)
+          obj.image_url = image_url
+
+        } catch (err) {
+
+        }
+      }
+      nftsToDisplay.push(obj)
+    }
+
+    this.nfts = [...nftsToDisplay]
 
     // this.$axios.post("/existOracle", {
     //   form: th.form
@@ -229,27 +208,11 @@ export default {
 
       const res = await this.$axios.get(`/list-nft/${walledAddress}`);
       console.log("res from api", res.data)
+      return res.data
+    },
 
-      // this.$axios.post(`/list-nft/${walledAddress}`)
-      //   .then((resp) => {
-      //     console.log("resp", resp)
-      //     this.status = resp.data.status
-      //     this.oracleId = resp.data.id ? resp.data.id : null
-      //
-      //     if (resp.data.id)
-      //       this.readOracle()
-      //
-      //     this.loading = false
-      //   })
-      //   .catch((err) => {
-      //     console.log(err.response.data)
-      //     this.notif = {
-      //       title: "Error",
-      //       variant: "danger",
-      //       message: err.response.data.message
-      //     }
-      //     this.loading = false
-      //   })
+    getHttpsUrlFromIpfs(ipfsUrl) {
+      return `https://ipfs.io/ipfs/${ipfsUrl.split("ipfs://")[1]}`;
     },
 
     readOracle() {

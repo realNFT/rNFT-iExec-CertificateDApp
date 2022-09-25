@@ -1,0 +1,173 @@
+@use '_reset';
+@use '_colors';
+@use '_typography';
+
+//body {
+//  background-color: colors.$main-bg-dark;
+//  min-height: 100vh;
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//  font-family: 'Outfit';
+//}
+
+.card-nft {
+  background-color: colors.$card-bg-dark;
+  padding: 24px 24px 32px 24px;
+  border-radius: 15px;
+  width: 300px;
+  height: 400px;
+  margin: 0 10px;
+
+  @media screen and (max-width: 550px) {
+    padding: 24px;
+    width: 300px;
+    height: 400px;
+  }
+}
+
+.card__picture-container {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 250px;
+
+  @media screen and (max-width: 550px) {
+    height: 225px;
+  }
+}
+
+.card__picture {
+  width: 100%;
+  height: auto;
+}
+
+.card__picture--overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: 0.5s ease-in-out;
+  background-color: colors.$transparent-cyan;
+  z-index: 1;
+}
+
+.card__picture--icon-view {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  background-image: url("~@/assets/images/icon-view.svg");
+  transition: 0.5s ease-in-out;
+  width: 48px;
+  height: 48px;
+  z-index: 2;
+  color: colors.$white;
+}
+
+.card__picture-container:hover .card__picture--overlay,
+.card__picture-container:hover .card__picture--icon-view {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.card__link {
+
+}
+
+.card__title {
+  font-size: 22px;
+  color: colors.$white;
+  font-weight: typography.$semibold;
+  margin: 24px 0 12px;
+  transition: 0.5s ease-in-out;
+  //cursor: pointer;
+
+  //&:hover {
+  //  color: colors.$cyan;
+  //}
+}
+
+.card__description {
+  font-size: 18px;
+  color: colors.$soft-blue;
+  font-weight: typography.$light;
+  line-height: 26px;
+  margin-bottom: 24px;
+
+  @media screen and (max-width: 550px) {
+    margin-bottom: 16px;
+  }
+}
+
+.card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card__nft-price-container {
+  display: flex;
+  align-items: center;
+}
+
+.card__nft-price {
+  font-size: 15px;
+  font-weight: typography.$semibold;
+  color: colors.$cyan;
+  margin-left: 6px;
+}
+
+.card__expiration-container {
+  display: flex;
+  align-items: center;
+}
+
+.card__expiration {
+  font-size: 16px;
+  font-weight: typography.$regular;
+  color: colors.$soft-blue;
+  margin-left: 8px;
+}
+
+.card__separator {
+  border-top: 1px solid colors.$dark-blue;
+  margin-top: 24px;
+  margin-bottom: 16px;
+
+  @media screen and (max-width: 550px) {
+    margin-top: 16px;
+  }
+}
+
+.card__creator {
+  display: flex;
+  align-items: center;
+}
+
+.card__creator-avatar {
+  width: 33px;
+  height: 33px;
+  border-radius: 50px;
+  border: 1px solid colors.$white;
+  margin-right: 16px;
+}
+
+.card__creator-introduction {
+  font-size: 16px;
+  font-weight: typography.$regular;
+  color: colors.$soft-blue;
+}
+
+.card__creator-name {
+  color: colors.$white;
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    color: colors.$cyan;
+  }
+}
