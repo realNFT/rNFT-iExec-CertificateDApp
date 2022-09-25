@@ -19,6 +19,7 @@
                      <b-nav-item to="/" :active="$route.path === '/'" ><b>Home</b></b-nav-item>
                     <b-nav-item to="/oracle" :active="$route.path === '/oracle'"><b>iExec Oracle</b></b-nav-item>
                     <b-nav-item to="/mint" :active="$route.path === '/mint'" ><b>Mint Certificate</b></b-nav-item>
+                    <b-nav-item to="/mynfts" :active="$route.path === '/mynfts'" ><b>My NFTs</b></b-nav-item>
                 </b-navbar-nav>
                 
                 <b-navbar-nav  v-if="!isConnected">
