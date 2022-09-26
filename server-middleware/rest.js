@@ -5,7 +5,6 @@ import {ethers} from "ethers";
 const rpc = "https://viviani.iex.ec"
 const bodyParser = require('body-parser')
 const app = require('express')()
-const http = require("https");
 const axios = require('axios').default;
 
 
@@ -235,17 +234,19 @@ app.get('/list-nft/:walletAddress', async (req, res) => {
     console.log("responsee", res.data)
   })
 
-  // const options = {
-  //   method: "GET",
-  //   hostname: "api.nftport.xyz",
-  //   port: null,
-  //   path: "/v0/accounts/0xABf804a94d3E7202d8D7dF4809c5140c15B59434?chain=ethereum&refresh_metadata=true",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     Authorization: "0a808c9d-adee-4adc-8127-2a271075f458",
-  //   },
-  // };
+ // wallet address hard coded
+ //  const options = {
+ //    method: "GET",
+ //    baseURL: "https://api.nftport.xyz",
+ //    url: `/v0/accounts/0xABf804a94d3E7202d8D7dF4809c5140c15B59434`,
+ //    params: {chain: 'ethereum', refresh_metadata: true},
+ //    headers: {
+ //      "Content-Type": "application/json",
+ //      Authorization: "0a808c9d-adee-4adc-8127-2a271075f458",
+ //    },
+ //  };
 
+  // Dynamic wallet
   const options = {
     method: "GET",
     baseURL: "https://api.nftport.xyz",
