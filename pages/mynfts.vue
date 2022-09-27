@@ -3,7 +3,6 @@
     <div v-if="loader" class="loader-div">
       <div class="loader"></div>
     </div>
-
     <Notification :notif="notif"/>
     <b-col cols="12" xl="12" sm="12">
       <h1 class="text-center"><b>My NFTs</b></h1>
