@@ -55,10 +55,10 @@ $ npm install
 $ npm i
 ```
 
-```console
+```
 $ npm run compile
 ```
-
+```console
 # serve with hot reload at localhost:3000
 $ npm run dev
 
