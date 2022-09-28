@@ -1,6 +1,6 @@
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  target: 'server',
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: true,
