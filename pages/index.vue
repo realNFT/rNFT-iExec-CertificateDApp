@@ -11,7 +11,7 @@
     <br>
           <h1 class="mb-4" style="text-align:center; color: white"><b>How it works ? </b></h1>
           <p style=" color: white">1. On the "My NFTs" tab, you can view your NFTs</p>
-          <p style=" color: white">2. Click on "iExec Oracle" tab and register NFT through a smart contract address and a tokenId</p>
+          <p style=" color: white">2. Click on "iExec Oracle" tab and register NFT through a smart contract address and a token Id</p>
           <p style=" color: white">3. Fill the smart contract adress of your NFT and the token ID, authorize what you want about reproductions of your NFT and mint the certificate</p>
   </div>
 </template>
