@@ -15,27 +15,42 @@ const CertificateMint = new ethers.Contract(
   provider
 )
 const signer = utils.getSignerFromPrivateKey('bellecour', process.env.PRIVATE_KEY);
-const Factory = new IExecOracleFactory(signer)
+const Factory = new IExecOracleFactory(signer, {
+  iexecOptions: {
+    smsURL: 'https://v7.sms.debug-tee-services.bellecour.iex.ec'
+  }
+})
 
 app.use(bodyParser.json())
 
 app.post('/createOracle', async (req, res) => {
 
-  if (!req.body.form.smartContract && !req.body.form.tokenId)
-    return res.status(404).send({message: "Please enter a valid smart contract and token id"})
-
+  // reverse the logic here, if (nothing missing then do else return "please enter a valid sc and tkn")
+  if (!req.body.form.smartContract){
+    console.log(req.body.form.tokenId)
+    return res.status(404).send({message: "Please enter a valid smart contract"})
+  }
+    
+  if (!req.body.form.tokenId) {
+    console.log(req.body.form.smartContract)
+    return res.status(404).send({message: "Please enter a valid token id"})
+  }
+  
   const ID = await CertificateMint.connect(signer).getOracleId(ethers.utils.getAddress(req.body.form.smartContract), parseInt(req.body.form.tokenId))
   if (ID !== "0x0000000000000000000000000000000000000000000000000000000000000000")
     return res.status(403).send({message: `Oracle is already present with this ${ID} oracle id.`});
   else {
     let oracleId;
+    let paramSet;
+    let cid;
 
     let rawParams = {
       url: `https://api.nftport.xyz/v0/nfts/${req.body.form.smartContract}/${req.body.form.tokenId}?chain=ethereum&refresh_metadata=true`,
       method: 'GET',
       headers: {
         'Authorization': '%API_KEY%',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'true'
       },
       dataType: 'string',
       JSONPath: '$.owner',
@@ -43,6 +58,7 @@ app.post('/createOracle', async (req, res) => {
     }
     utils.testRawParams(rawParams)
       .then(() => {
+        console.log("ok here 1")
         Factory.createOracle(rawParams)
           .subscribe({
             error: (e) => {
@@ -52,9 +68,16 @@ app.post('/createOracle', async (req, res) => {
               })
             },
             next: (value) => {
+              console.log("ok here 2")
               const {message, ...additionalEntries} = value;
+              if (message === 'PARAM_SET_CREATED') {
+                paramSet = additionalEntries.paramSet;
+              }
               if (message === 'ORACLE_ID_COMPUTED') {
                 oracleId = additionalEntries.oracleId;
+              }
+              if (message === 'PARAM_SET_UPLOADED') {
+                cid = additionalEntries.cid;
               }
               console.log(message);
               console.info(JSON.stringify(additionalEntries));
@@ -64,7 +87,7 @@ app.post('/createOracle', async (req, res) => {
                 return res.send({message: `Oracle has been created for the token ${req.body.form.tokenId} at the address ${req.body.form.smartContract} on Mainnet. Oracle id is ${oracleId}`});
               })
                 .catch((e) => {
-                  console.log(e)
+                  console.log("error here", e)
                   return res.status(500).send({
                     message: e
                   });
@@ -75,6 +98,8 @@ app.post('/createOracle', async (req, res) => {
 
       })
       .catch((err) => {
+        console.log(err)
+
         return res.status(401).send({
           message: err.message
         })
@@ -126,7 +151,8 @@ app.post('/updateOracle', (req, res) => {
     method: 'GET',
     headers: {
       'Authorization': '%API_KEY%',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': true
     },
     dataType: 'string',
     JSONPath: '$.owner',
@@ -143,8 +169,6 @@ app.post('/updateOracle', (req, res) => {
       },
       next: (value) => {
         const {message, ...additionalEntries} = value;
-        if (message === 'ORACLE_ID_COMPUTED')
-          oracleId = additionalEntries.oracleId;
         console.log(message);
         console.info(JSON.stringify(additionalEntries));
       },

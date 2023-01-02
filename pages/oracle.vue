@@ -19,7 +19,7 @@
                     ></b-form-input>
                     <b-skeleton v-else type="input"></b-skeleton>
                     <b-form-invalid-feedback id="feedback-smartContract">
-                        <b>You must enter ERC721 or ERC155 smart contract address.</b>
+                        <b>You must enter ERC721 or ERC1155 smart contract address.</b>
                     </b-form-invalid-feedback>
                 </b-form-group>
                 <b-form-group>
@@ -153,10 +153,14 @@ export default {
         createOracle(){     
             this.loading = true
             this.$axios.post("/createOracle", {
-                form: this.form 
+                form: this.form,     
+            }, {
+                headers: {
+                    "Access-Control-Allow-Origin": true
+                }
             })
             .then((resp) => {
-                
+                console.log(resp)
                 this.notif= {
                     title: resp.status === 200 ? "Success" : "Error",
                     variant: resp.status === 200 ? "success" : "danger",
@@ -180,8 +184,13 @@ export default {
             this.loading = true
             this.$axios.post("/existOracle", {
                 form: this.form 
+            }, {
+                headers: {
+                    "Access-Control-Allow-Origin": true
+                }
             })
             .then((resp) => {
+                console.log(resp)
                 this.status = resp.data.status
                 this.oracleId = resp.data.id ? resp.data.id : null
                 
@@ -191,11 +200,12 @@ export default {
                 this.loading = false
             })
             .catch((err) => {
-                console.log(err.response.data)
+                console.log(err);
+                //console.log(err.response.data)
                 this.notif = {
                     title: "Error",
                     variant: "danger",
-                    message: err.response.data.message
+                    message: err
                 }
                 this.loading = false
             })
@@ -221,7 +231,11 @@ export default {
         updateOracle(){
             this.loading = true
             this.$axios.post("/updateOracle", {
-                form: this.form 
+                form: this.form,     
+            }, {
+                headers: {
+                    "Access-Control-Allow-Origin": true
+                }
             })
             .then((resp) => {
                 this.notif= {

@@ -8,7 +8,8 @@ export default {
   serverMiddleware: ['~/server-middleware/rest.js'],
   
   axios: {
-    baseUrl: process.env.PRODUCTION ? 'http://certificate.rnft.fr' : 'http://localhost:3000'
+    //baseUrl: process.env.PRODUCTION ? 'http://certificate.rnft.fr' : 'http://localhost:3000'
+    baseUrl: 'http://localhost:3000'
   }, 
 
   // Global page headers: https://go.nuxtjs.dev/config-head

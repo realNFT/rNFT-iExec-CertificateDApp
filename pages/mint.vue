@@ -110,7 +110,7 @@
                 <b-form-group  v-if="!loading">
                     <b-button v-if="valid.smartContract && valid.tokenId && status==='Create'" class="mt-4 w-100" variant="primary" @click="$router.push('/oracle')"><b>Create Oracle</b></b-button>
                     <b-button v-else-if="valid.smartContract && valid.tokenId && status==='Update'" class="mt-4 w-100" variant="primary" @click="$router.push('/oracle')"><b>Update Oracle</b></b-button>
-                    <b-button v-else class="mt-4 w-100" variant="primary" @click="mint()" :disabled="!isConnected  || value === null || value != isConnected" ><b>Mint Certificate</b></b-button>
+                    <b-button v-else class="mt-4 w-100" variant="primary" @click="mint()" :disabled="value !== null" ><b>Mint Certificate</b></b-button>
                     
                     <p v-if="!isConnected && status != 'Create'" class="text-danger small mt-2"><b>You must be connected with your wallet to interact with the mint function.</b></p>
                     <p v-else-if="value != null && value != isConnected" class="text-danger small mt-2"><b>You must be the owner of the NFT pointed by the smart contract and token id.</b></p>
@@ -344,14 +344,18 @@ export default {
                 } 
             await this.connect();
             const signer = await this.library.getSigner();
+            console.log("signer", signer);
 
             const CertificateMint = new ethers.Contract(
                 "0xc9e63908D67BFeBD55E58F3334a247DE7488C822", // deployed contract
                 CertificateMintJSON.abi,
                 signer
             )
+            console.log("CertificateMint", CertificateMint)
             
-            CertificateMint.mint(ethers.utils.getAddress(this.form.smartContract), parseInt(this.form.tokenId)).then(() => {
+            CertificateMint.mint(ethers.utils.getAddress(this.form.smartContract), parseInt(this.form.tokenId))
+            .then(() => {
+                console.log("Minted")
                 this.notif = {
                     title: "Success",
                     variant: "success",
