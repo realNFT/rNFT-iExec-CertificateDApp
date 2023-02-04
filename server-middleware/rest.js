@@ -45,16 +45,16 @@ app.post('/createOracle', async (req, res) => {
     let cid;
 
     let rawParams = {
-      url: `https://api.nftport.xyz/v0/nfts/${req.body.form.smartContract}/${req.body.form.tokenId}?chain=ethereum&refresh_metadata=true`,
+      url: `https://api.nftport.xyz/v0/nfts/${req.body.form.smartContract}/${req.body.form.tokenId}?chain=goerli&refresh_metadata=true`,
       method: 'GET',
       headers: {
-        'Authorization': '%API_KEY%',
+        Authorization: process.env.API_KEY,
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'true'
+        'Access-Control-Allow-Origin': 'true',
+        apiKey: process.env.API_KEY
       },
       dataType: 'string',
       JSONPath: '$.owner',
-      apiKey: process.env.API_KEY,
     }
     utils.testRawParams(rawParams)
       .then(() => {
@@ -150,7 +150,7 @@ app.post('/updateOracle', (req, res) => {
     url: `https://api.nftport.xyz/v0/nfts/${req.body.form.smartContract}/${req.body.form.tokenId}?chain=ethereum&refresh_metadata=true`,
     method: 'GET',
     headers: {
-      'Authorization': '%API_KEY%',
+      'Authorization': process.env.API_KEY,
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': true
     },
@@ -255,7 +255,7 @@ app.get('/list-nft/:walletAddress', async (req, res) => {
   console.log("walletAddress :", walletAddress)
 
   axios.get("https://jsonplaceholder.typicode.com/todos/1").then(res => {
-    console.log("responsee", res.data)
+    // console.log("responsee", res.data)
   })
 
  // wallet address hard coded
@@ -275,16 +275,17 @@ app.get('/list-nft/:walletAddress', async (req, res) => {
     method: "GET",
     baseURL: "https://api.nftport.xyz",
     url: `/v0/accounts/${walletAddress}`,
-    params: {chain: 'ethereum', refresh_metadata: true},
+    params: {chain: 'goerli', refresh_metadata: true},
     headers: {
       "Content-Type": "application/json",
-      Authorization: "0a808c9d-adee-4adc-8127-2a271075f458",
+      Authorization: process.env.API_KEY,
     },
   };
 
   // const response = await axios.get(options)
   try {
     const response = await axios(options)
+    console.log("Response from api ",response)
     const data = response.data
     const nfts = data.nfts;
 
@@ -305,7 +306,7 @@ app.get('/list-nft/:walletAddress', async (req, res) => {
             nftInWallet.push(...values)
             error = false
           } catch (err) {
-
+              console.log("Error",err)
           }
           await new Promise(r => setTimeout(r, 1000));
         }
@@ -316,6 +317,7 @@ app.get('/list-nft/:walletAddress', async (req, res) => {
     res.status(200).json(nftInWallet);
 
   } catch (err) {
+    
     console.log("error", err)
   }
 })
@@ -326,10 +328,10 @@ function getNftInfo(contract, tokenId) {
     method: "GET",
     baseURL: "https://api.nftport.xyz",
     url: `/v0/nfts/${contract}/${tokenId}`,
-    params: {chain: 'ethereum', refresh_metadata: true},
+    params: {chain: 'goerli', refresh_metadata: true},
     headers: {
       "Content-Type": "application/json",
-      Authorization: "0a808c9d-adee-4adc-8127-2a271075f458",
+      Authorization: process.env.API_KEY,
     },
   };
 
@@ -337,3 +339,4 @@ function getNftInfo(contract, tokenId) {
 }
 
 module.exports = app
+

@@ -57,7 +57,7 @@ export default {
     if(!walledAddress)return;
 
     const result = await this.listNft(walledAddress);
-
+    console.log("List nft are",result)
     // this.nfts = await this.listNft(walledAddress);
 
     const nftsToDisplay = []
